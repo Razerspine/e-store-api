@@ -3,24 +3,24 @@ const cloudinary = require('cloudinary').v2;
 
 module.exports = async (req, res, next) => {
   try {
-    const {id} = req.params;
-    const {name, description, price, sku, images, isActive} = req.body;
+    const {name, description, category, price, sku, images, isActive} = req.body;
     const file = req.file;
 
-    const product = await Product.findById(id);
+    const product = await Product.findOne({uuid: req.params.uuid});
     if (!product) return res.status(404).json({message: 'Not found'});
 
     const update = {};
     if (name) update.name = name;
     if (description) update.description = description;
+    if (category !== undefined) update.category = category;
     if (price) update.price = price;
     if (sku !== undefined) update.sku = sku;
     if (isActive !== undefined) update.isActive = isActive;
     if (Array.isArray(images)) update.images = images;
 
     if (file) {
-      if (Array.isArray(product.images) && product.images.length > 0) {
-        const oldImage = product.images[0];
+      if (Array.isArray(product?.images) && product?.images.length > 0) {
+        const oldImage = product?.images[0];
         if (oldImage.publicId) {
           await cloudinary.uploader.destroy(oldImage.publicId);
         }
@@ -41,7 +41,7 @@ module.exports = async (req, res, next) => {
 
       update.images = [newImage];
     }
-    const updatedProduct = await Product.findByIdAndUpdate(id, update, {new: true});
+    const updatedProduct = await Product.findByIdAndUpdate({uuid: req.params.uuid}, update, {new: true});
     res.json(updatedProduct);
   } catch (err) {
     next(err);

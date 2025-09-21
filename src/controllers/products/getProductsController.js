@@ -1,18 +1,19 @@
 const Product = require('../../models/Product');
+const languages = ['en', 'uk'];
 
 module.exports = async (req, res) => {
-  const {q, active, limit = 20, page = 1} = req.query;
+  const {search, active, limit = 20, page = 1} = req.query;
 
   const filter = {};
   if (active !== undefined) filter.isActive = active === 'true';
-  if (q) {
-    const regex = new RegExp(q, 'i');
-    filter.$or = [
-      {'name.en': regex},
-      {'name.uk': regex},
-      {'description.en': regex},
-      {'description.uk': regex}
-    ];
+  if (search) {
+    const regex = new RegExp(search, 'i');
+    filter.$or = [];
+
+    for (const lang of languages) {
+      filter.$or.push({[`name.${lang}`]: regex});
+      filter.$or.push({[`description.${lang}`]: regex});
+    }
   }
 
   const skip = (Number(page) - 1) * Number(limit);

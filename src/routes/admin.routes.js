@@ -9,8 +9,8 @@ const deleteProduct = require('../controllers/products/deleteProductController')
 const uploadImage = require('../controllers/products/uploadProductImageController');
 
 router.post('/products', auth, requireRole('admin'), upload.single('image'), createProduct);
-router.patch('/products/:id', auth, requireRole('admin'), upload.single('image'), updateProduct);
-router.delete('/products/:id', auth, requireRole('admin'), deleteProduct);
-router.post('/products/:id/image', auth, requireRole('admin'), upload.single('image'), uploadImage);
+router.patch('/products/:uuid', auth, requireRole('admin'), upload.single('image'), updateProduct);
+router.delete('/products/:uuid', auth, requireRole('admin'), deleteProduct);
+router.post('/products/:uuid/image', auth, requireRole('admin'), upload.single('image'), uploadImage);
 
 module.exports = router;

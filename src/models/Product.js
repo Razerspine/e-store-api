@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {v4: uuidv4} = require('uuid');
 
 const imageSchema = new mongoose.Schema(
   {
@@ -18,6 +19,13 @@ const imageSchema = new mongoose.Schema(
 
 const productSchema = new mongoose.Schema(
   {
+    uuid: {
+      type: String,
+      default: uuidv4,
+      unique: true,
+      index: true,
+      immutable: true
+    },
     name: {
       type: Map,
       of: String,
@@ -27,6 +35,10 @@ const productSchema = new mongoose.Schema(
       type: Map,
       of: String,
       required: true,
+    },
+    category: {
+      type: String,
+      default: 'all',
     },
     price: {
       type: Map,
@@ -47,7 +59,18 @@ const productSchema = new mongoose.Schema(
       default: true,
     }
   },
-  {timestamps: true}
+  {
+    timestamps: true, toJSON: {
+      virtuals: true,
+      transform(doc, ret) {
+        delete ret._id;
+        delete ret.__v;
+        delete ret.createdAt;
+        delete ret.updatedAt;
+        delete ret.id;
+      }
+    }
+  }
 );
 
 module.exports = mongoose.model('Product', productSchema);

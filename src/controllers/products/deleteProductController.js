@@ -2,8 +2,7 @@ const Product = require('../../models/Product');
 const cloudinary = require('../../config/cloudinary');
 
 module.exports = async (req, res) => {
-  const {id} = req.params;
-  const product = await Product.findById(id);
+  const product = await Product.findOne({uuid: req.params.uuid});
   if (!product) return res.status(404).json({message: 'Not found'});
   for (const img of product.images) {
     try {
@@ -13,6 +12,6 @@ module.exports = async (req, res) => {
     }
   }
 
-  await Product.findByIdAndDelete(id);
+  await Product.findOne({uuid: req.params.uuid});
   res.status(200).json({message: 'Product and images deleted successfully'});
 };

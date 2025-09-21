@@ -3,7 +3,7 @@ const cloudinary = require('cloudinary').v2;
 
 module.exports = async (req, res, next) => {
   try {
-    const {name, description, price, sku, isActive} = req.body;
+    const {name, description, category, price, sku, isActive} = req.body;
     const file = req.file;
 
     if (!name || !description || !price) {
@@ -32,6 +32,7 @@ module.exports = async (req, res, next) => {
     const product = await Product.create({
       name,
       description,
+      category,
       price,
       sku,
       images: imageData ? [imageData] : [],

@@ -3,14 +3,13 @@ const cloudinary = require('../../config/cloudinary');
 
 module.exports = async (req, res, next) => {
   try {
-    const {id} = req.params;
     const file = req.file;
 
     if (!file) {
       return res.status(400).json({message: 'Image file is required'});
     }
 
-    const product = await Product.findById(id);
+    const product = await Product.findOne({uuid: req.params.uuid});
     if (!product) {
       return res.status(404).json({message: 'Not found'});
     }
