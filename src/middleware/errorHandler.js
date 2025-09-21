@@ -1,4 +1,4 @@
-module.exports = function errorHandler(err, req, res) {
+module.exports = function errorHandler(err, req, res, next) {
   console.error(err);
   if (err.message && err.message.includes('Only image files allowed')) {
     return res.status(400).json({message: err.message});
