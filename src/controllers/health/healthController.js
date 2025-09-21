@@ -4,7 +4,7 @@ const cloudinary = require('cloudinary').v2;
 module.exports = async (req, res) => {
   try {
     const dbState = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
-    let cloudinaryStatus = 'unknown';
+    let cloudinaryStatus;
     try {
       await cloudinary.api.ping();
       cloudinaryStatus = 'connected';
