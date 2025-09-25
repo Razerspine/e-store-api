@@ -15,7 +15,7 @@ module.exports = async (req, res, next) => {
     if (isActive !== undefined) update.isActive = isActive;
     if (image !== undefined) update.image = image;
 
-    const updatedProduct = await Product.findByIdAndUpdate({uuid: req.params.uuid}, update, {new: true});
+    const updatedProduct = await Product.findOneAndUpdate({uuid: req.params.uuid}, update, {new: true});
     res.json(updatedProduct);
   } catch (err) {
     next(err);
