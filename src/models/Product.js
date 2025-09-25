@@ -50,9 +50,9 @@ const productSchema = new mongoose.Schema(
       unique: true,
       sparse: true,
     },
-    images: {
-      type: [imageSchema],
-      default: [],
+    image: {
+      type: imageSchema,
+      default: null,
     },
     isActive: {
       type: Boolean,

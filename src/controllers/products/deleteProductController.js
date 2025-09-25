@@ -4,9 +4,9 @@ const cloudinary = require('../../config/cloudinary');
 module.exports = async (req, res) => {
   const product = await Product.findOne({uuid: req.params.uuid});
   if (!product) return res.status(404).json({message: 'Not found'});
-  for (const img of product.images) {
+  if (product?.image && product.image?.publicId) {
     try {
-      await cloudinary.uploader.destroy(img.publicId);
+      await cloudinary.uploader.destroy(product.image.publicId);
     } catch (error) {
       console.log('Error: ', error);
     }
