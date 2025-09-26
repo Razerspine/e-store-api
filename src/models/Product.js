@@ -60,17 +60,21 @@ const productSchema = new mongoose.Schema(
     }
   },
   {
-    timestamps: true, toJSON: {
-      virtuals: true,
-      transform(doc, ret) {
-        delete ret._id;
-        delete ret.__v;
-        delete ret.createdAt;
-        delete ret.updatedAt;
-        delete ret.id;
-      }
-    }
+    timestamps: true,
   }
 );
+
+productSchema.methods.toPublicJSON = function () {
+  return {
+    uuid: this.uuid,
+    name: this.name,
+    description: this.description,
+    category: this.category,
+    price: this.price,
+    sku: this.sku,
+    image: this.image,
+    isActive: this.isActive,
+  };
+};
 
 module.exports = mongoose.model('Product', productSchema);

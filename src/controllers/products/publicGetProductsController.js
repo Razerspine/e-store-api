@@ -23,12 +23,12 @@ module.exports = async (req, res) => {
   ]);
 
   res.json({
-    items,
+    items: items.map(item => item.toPublicJSON()),
     meta: {
       total,
       page: Number(page),
       limit: Number(limit),
-      pages: Math.ceil(total / Number(limit))
+      pages: Math.ceil(total / Number(limit)),
     }
   });
 };
