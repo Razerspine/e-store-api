@@ -6,7 +6,7 @@ const errorHandler = require('./middleware/errorHandler');
 
 const authRoutes = require('./routes/auth.routes');
 const publicRoutes = require('./routes/public.routes');
-const adminRoutes = require('./routes/admin.routes');
+const privateRoutes = require('./routes/private.routes');
 const healthRoutes = require('./routes/health.routes');
 
 const app = express();
@@ -17,7 +17,7 @@ app.use(morgan('dev'));
 
 app.use('/api/auth', authRoutes);
 app.use('/api/public', publicRoutes);
-app.use('/api/private', adminRoutes);
+app.use('/api/private', privateRoutes);
 app.use('/api', healthRoutes);
 
 app.use(errorHandler);

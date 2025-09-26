@@ -3,7 +3,7 @@ const cloudinary = require('../../config/cloudinary');
 module.exports = async (req, res) => {
   try {
     if (!req.file) {
-      return res.status(400).json({error: 'Файл не передан'});
+      return res.status(400).json({error: 'File not found!'});
     }
 
     const stream = cloudinary.uploader.upload_stream(

@@ -8,7 +8,11 @@ const updateProduct = require('../controllers/products/updateProductController')
 const deleteProduct = require('../controllers/products/deleteProductController');
 const uploadFile = require('../controllers/products/uploadController');
 const deleteFile = require('../controllers/products/deleteController');
+const getProducts = require('../controllers/products/getProductsController');
+const getProductByUuid = require('../controllers/products/getProductByUuidController');
 
+router.get('/products', auth, requireRole('admin'), getProducts);
+router.get('/products/:uuid', auth, requireRole('admin'), getProductByUuid);
 router.post('/products', auth, requireRole('admin'), createProduct);
 router.patch('/products/:uuid', auth, requireRole('admin'), updateProduct);
 router.delete('/products/:uuid', auth, requireRole('admin'), deleteProduct);

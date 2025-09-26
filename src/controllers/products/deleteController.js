@@ -9,7 +9,7 @@ module.exports = async (req, res) => {
 
     await cloudinary.uploader.destroy(publicId);
 
-    res.json({message: 'File deleted', publicId});
+    res.json({message: 'File deleted from storage!', publicId});
   } catch (err) {
     res.status(500).json({error: err.message});
   }

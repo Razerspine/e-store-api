@@ -4,7 +4,7 @@ module.exports = async (req, res, next) => {
   try {
     const {name, description, category, price, sku, image, isActive} = req.body;
     const product = await Product.findOne({uuid: req.params.uuid});
-    if (!product) return res.status(404).json({message: 'Not found'});
+    if (!product) return res.status(404).json({message: 'Product not found!'});
     const update = {};
 
     if (name) update.name = name;
