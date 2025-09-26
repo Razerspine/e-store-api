@@ -6,8 +6,8 @@ const upload = require('../middleware/upload');
 const createProduct = require('../controllers/products/createProductController');
 const updateProduct = require('../controllers/products/updateProductController');
 const deleteProduct = require('../controllers/products/deleteProductController');
-const uploadFile = require('../controllers/products/uploadController');
-const deleteFile = require('../controllers/products/deleteController');
+const uploadFile = require('../controllers/uploads/uploadController');
+const deleteFile = require('../controllers/uploads/deleteController');
 const getProducts = require('../controllers/products/getProductsController');
 const getProductByUuid = require('../controllers/products/getProductByUuidController');
 
