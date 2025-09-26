@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
   ]);
 
   res.json({
-    items,
+    items: items.map(item => item?.toPrivateJSON()),
     meta: {
       total,
       page: Number(page),

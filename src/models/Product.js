@@ -77,4 +77,19 @@ productSchema.methods.toPublicJSON = function () {
   };
 };
 
+productSchema.methods.toPrivateJSON = function () {
+  return {
+    uuid: this.uuid,
+    name: this.name,
+    description: this.description,
+    category: this.category,
+    price: this.price,
+    sku: this.sku,
+    image: this.image,
+    isActive: this.isActive,
+    createdAt: this.createdAt ? this.createdAt.getTime() : null,
+    updatedAt: this.updatedAt ? this.updatedAt.getTime() : null,
+  };
+};
+
 module.exports = mongoose.model('Product', productSchema);
