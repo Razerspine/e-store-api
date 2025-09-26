@@ -12,6 +12,6 @@ module.exports = async (req, res) => {
     }
   }
 
-  await Product.findOne({uuid: req.params.uuid});
-  res.status(200).json({message: 'Product and images deleted successfully!'});
+  await Product.deleteOne({uuid: req.params.uuid});
+  res.status(200).json({message: 'Product and image from storage deleted successfully!'});
 };
