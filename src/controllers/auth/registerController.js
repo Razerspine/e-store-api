@@ -9,6 +9,6 @@ module.exports = async (req, res) => {
   }
 
   const user = await User.create({email, password, role: role === 'admin' ? 'admin' : 'user'});
-  const token = jwt.sign({sub: user._id, role: user.role}, process.env.JWT_SECRET, {expiresIn: '7d'});
+  const token = jwt.sign({sub: user._id, role: user.role}, process.env.JWT_SECRET, {expiresIn: '1d'});
   res.status(201).json({token, user: {id: user._id, email: user.email, role: user.role}});
 };
