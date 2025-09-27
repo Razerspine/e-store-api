@@ -1,5 +1,5 @@
 const Product = require('../../models/Product');
-const languages = ['en', 'uk'];
+const languages = require('../../config/languages');
 
 module.exports = async (req, res) => {
   const {search, active, limit = 20, page = 1} = req.query;
@@ -11,8 +11,13 @@ module.exports = async (req, res) => {
     filter.$or = [];
 
     for (const lang of languages) {
-      filter.$or.push({[`name.${lang}`]: regex});
-      filter.$or.push({[`description.${lang}`]: regex});
+      filter.$or.push({[`name.${lang.key}`]: regex});
+    }
+
+    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(search);
+
+    if (isUuid) {
+      filter.$or.push({uuid: search});
     }
   }
 
