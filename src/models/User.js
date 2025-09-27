@@ -19,6 +19,19 @@ const userSchema = new mongoose.Schema(
       type: String,
       enum: ['user', 'admin'],
       default: 'user'
+    },
+    language: {
+      type: String,
+      enum: ['en', 'uk', 'de', 'fr'],
+      default: 'en',
+    },
+    currency: {
+      type: String,
+      default: 'USD',
+    },
+    wishList: {
+      type: [String],
+      default: [],
     }
   },
   {timestamps: true}
@@ -32,6 +45,29 @@ userSchema.pre('save', async function () {
 
 userSchema.methods.comparePassword = function (candidate) {
   return bcrypt.compare(candidate, this.password);
+};
+
+userSchema.methods.toPrivateJSON = function () {
+  return {
+    userId: this.id,
+    email: this.email,
+    role: this.role,
+    createdAt: this.createdAt ? this.createdAt.getTime() : null,
+    updatedAt: this.updatedAt ? this.updatedAt.getTime() : null
+  };
+};
+
+userSchema.methods.toPublicJSON = function () {
+  return {
+    userId: this.id,
+    email: this.email,
+    role: this.role,
+    language: this.language,
+    currency: this.currency,
+    wishList: this.wishList,
+    createdAt: this.createdAt ? this.createdAt.getTime() : null,
+    updatedAt: this.updatedAt ? this.updatedAt.getTime() : null
+  };
 };
 
 module.exports = mongoose.model('User', userSchema);

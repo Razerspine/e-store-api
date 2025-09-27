@@ -1,8 +1,10 @@
 module.exports = (req, res) => {
-  res.json({
-    user: {
-      email: req.user.email,
-      role: req.user.role
-    }
-  });
+  let userData;
+  if (req.user.role === 'admin') {
+    userData = req.user.toPrivateJSON();
+  } else {
+    userData = req.user.toPublicJSON();
+  }
+
+  res.json({user: userData});
 };
