@@ -3,7 +3,10 @@ const cloudinary = require('../../config/cloudinary');
 
 module.exports = async (req, res) => {
   try {
-    const uuids = Array.isArray(req.params.uuid) ? req.params.uuid : [req.params.uuid];
+    const uuids = req.body;
+    if (!Array.isArray(uuids) || uuids.length === 0) {
+      return res.status(400).json({message: 'UUIDs must be an array!'});
+    }
     const products = await Product.find({uuid: {$in: uuids}});
 
     if (!products.length) {
@@ -21,7 +24,7 @@ module.exports = async (req, res) => {
     }
 
     await Product.deleteMany({uuid: {$in: uuids}});
-    res.status(200).json({message: 'Products and images deleted successfully!'});
+    res.status(200).json({message: 'Products deleted successfully!'});
   } catch (error) {
     console.error('Error deleting products:', error);
     res.status(500).json({message: 'Internal server error'});
