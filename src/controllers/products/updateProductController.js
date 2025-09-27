@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
     }
 
     const updatedProduct = await Product.findOneAndUpdate({uuid: req.params.uuid}, update, {new: true});
-    res.json(updatedProduct);
+    res.json(updatedProduct?.toPrivateJSON());
   } catch (err) {
     next(err);
   }
