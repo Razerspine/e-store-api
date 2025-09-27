@@ -13,7 +13,11 @@ module.exports = async (req, res, next) => {
     if (price) update.price = price;
     if (sku !== undefined) update.sku = sku;
     if (isActive !== undefined) update.isActive = isActive;
-    if (image !== undefined) update.image = image;
+    if (image === undefined) {
+      update.image = null;
+    } else if (image && Object.values(image).some(v => v)) {
+      update.image = image;
+    }
 
     const updatedProduct = await Product.findOneAndUpdate({uuid: req.params.uuid}, update, {new: true});
     res.json(updatedProduct);
