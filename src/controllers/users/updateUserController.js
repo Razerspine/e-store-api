@@ -5,16 +5,15 @@ module.exports = async (req, res, next) => {
     const {email, password, role, language, currency} = req.body;
     const user = await User.findById(req.params.userId);
     if (!user) return res.status(404).json({message: 'User not found!'});
-    const update = {};
 
-    if (email) update.email = email;
-    if (password) update.password = password;
-    if (role !== undefined) update.role = role;
-    if (language !== undefined) update.language = language;
-    if (currency !== undefined) update.currency = currency;
+    if (email) user.email = email;
+    if (password) user.password = password;
+    if (role !== undefined) user.role = role;
+    if (language !== undefined) user.language = language;
+    if (currency !== undefined) user.currency = currency;
 
-    const updatedUser = await User.findByIdAndUpdate(req.params.userId, update, {new: true});
-    res.json(updatedUser?.toPrivateJSON());
+    await user?.save();
+    res.json(user?.toPrivateJSON());
   } catch (error) {
     console.log(error);
     next(error);
