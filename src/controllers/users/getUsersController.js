@@ -1,4 +1,5 @@
 const User = require('../../models/User');
+const mongoose = require('mongoose');
 
 module.exports = async (req, res) => {
   const {search, limit = 20, page = 1} = req.query;
@@ -6,11 +7,16 @@ module.exports = async (req, res) => {
   const filter = {};
   if (search) {
     const regex = new RegExp(search, 'i');
-    filter.$or = [
-      {userId: regex},
+    filter.$or = [];
+
+    if (mongoose.Types.ObjectId.isValid(search)) {
+      filter.$or.push({_id: new mongoose.Types.ObjectId(search)});
+    }
+
+    filter.$or.push(
       {email: regex},
       {role: regex}
-    ];
+    );
   }
   const skip = (Number(page) - 1) * Number(limit);
 
