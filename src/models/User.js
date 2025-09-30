@@ -54,7 +54,6 @@ userSchema.methods.toPrivateJSON = function () {
     role: this.role,
     language: this.language,
     currency: this.currency,
-    wishList: this.wishList,
     createdAt: this.createdAt ? this.createdAt.getTime() : null,
     updatedAt: this.updatedAt ? this.updatedAt.getTime() : null
   };
