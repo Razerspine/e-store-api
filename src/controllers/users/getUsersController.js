@@ -2,7 +2,7 @@ const User = require('../../models/User');
 const mongoose = require('mongoose');
 
 module.exports = async (req, res) => {
-  const {search, limit = 20, page = 1} = req.query;
+  const {search, role, limit = 20, page = 1} = req.query;
 
   const filter = {};
   if (search) {
@@ -18,6 +18,16 @@ module.exports = async (req, res) => {
       {role: regex}
     );
   }
+
+  if (role) {
+    if (filter.$or) {
+      filter.$and = [{ $or: filter.$or }, { role }];
+      delete filter.$or;
+    } else {
+      filter.role = role;
+    }
+  }
+
   const skip = (Number(page) - 1) * Number(limit);
 
   const [items, total] = await Promise.all([
