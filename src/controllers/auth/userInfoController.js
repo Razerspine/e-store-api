@@ -1,6 +1,6 @@
 module.exports = (req, res) => {
   let userData;
-  if (req.user.role === 'admin') {
+  if (['admin', 'super_admin'].includes(req.user.role)) {
     userData = req.user.toPrivateJSON();
   } else {
     userData = req.user.toPublicJSON();

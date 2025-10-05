@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const auth = require('../middleware/auth');
-const requireRole = require('../middleware/roles');
+const requirePermission = require('../middleware/requirePermission');
 const upload = require('../middleware/upload');
 
 const getProducts = require('../controllers/products/getProductsController');
@@ -18,19 +18,19 @@ const createUser = require('../controllers/users/createUserController');
 const updateUser = require('../controllers/users/updateUserController');
 const deleteUser = require('../controllers/users/deleteUserController');
 
-router.get('/products', auth, requireRole('admin'), getProducts);
-router.get('/products/:uuid', auth, requireRole('admin'), getProductByUuid);
-router.post('/products', auth, requireRole('admin'), createProduct);
-router.patch('/products/:uuid', auth, requireRole('admin'), updateProduct);
-router.delete('/products', auth, requireRole('admin'), deleteProduct);
+router.get('/products', auth, requirePermission('read:products'), getProducts);
+router.get('/products/:uuid', auth, requirePermission('read:products'), getProductByUuid);
+router.post('/products', auth, requirePermission('create:products'), createProduct);
+router.patch('/products/:uuid', auth, requirePermission('update:products'), updateProduct);
+router.delete('/products', auth, requirePermission('delete:products'), deleteProduct);
 
-router.post('/upload', auth, requireRole('admin'), upload.single('image'), uploadFile);
-router.delete('/delete/:publicId', auth, requireRole('admin'), deleteFile);
+router.post('/upload', auth, requirePermission('upload:files'), upload.single('image'), uploadFile);
+router.delete('/delete/:publicId', auth, requirePermission('delete:files'), deleteFile);
 
-router.get('/users', auth, requireRole('admin'), getUsers);
-router.get('/users/:userId', auth, requireRole('admin'), getUser);
-router.post('/users', auth, requireRole('admin'), createUser);
-router.patch('/users/:userId', auth, requireRole('admin'), updateUser);
-router.delete('/users', auth, requireRole('admin'), deleteUser);
+router.get('/users', auth, requirePermission('read:users'), getUsers);
+router.get('/users/:userId', auth, requirePermission('read:users'), getUser);
+router.post('/users', auth, requirePermission('create:users'), createUser);
+router.patch('/users/:userId', auth, requirePermission('update:users'), updateUser);
+router.delete('/users', auth, requirePermission('delete:users'), deleteUser);
 
 module.exports = router;
