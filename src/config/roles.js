@@ -1,8 +1,8 @@
 const roles = {
-  USER: [
+  user: [
     'read:public'
   ],
-  ADMIN: [
+  admin: [
     'read:products',
     'create:products',
     'update:products',
@@ -12,7 +12,7 @@ const roles = {
     'upload:files',
     'delete:files'
   ],
-  SUPER_ADMIN: ['*']
+  super_admin: ['*']
 };
 
 module.exports = roles;
